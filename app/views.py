@@ -44,3 +44,21 @@ class GenerosView(View):
     def get(self, request, *args, **kwargs):
         generos = Genero.objects.all()
         return render(request, 'genero.html', {'generos': generos})
+
+from django.views import View
+from django.shortcuts import redirect, get_object_or_404
+from django.contrib import messages
+from .models import Livro  # ajuste conforme o local do seu model
+
+class DeleteLivroView(View):
+    def get(self, request, id, *args, **kwargs):
+        livro = get_object_or_404(Livro, id=id)
+        livro.delete()
+        messages.success(request, 'Livro excluído com sucesso!')  # Mensagem de sucesso
+        return redirect('livros')  # Redireciona para a página de livros
+
+from django.contrib import admin
+from django.urls import path
+from django.views.generic import TemplateView
+
+
